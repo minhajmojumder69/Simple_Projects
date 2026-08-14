@@ -24,9 +24,14 @@ class Admin(User):
     def add_employee(self,restaurant,employee):
         restaurant.add_employee(employee)
         
-
     def view_employee(self,restaurant):
         restaurant.view_employee()
+
+    def add_new_item(self,restaurant,item):
+        restaurant.menu.add_food(item)
+
+    def delete_item(self,restaurant,item):
+        restaurant.menu.remove_item(item)
 
 # ad = Admin('Minhaj',12345676,'edu@gmail.com','Dhaka')
 # ad.add_employee('Rakin',984829,'rakin@gmail.com','Sonir akhra',22,'Chef',22000)
@@ -34,9 +39,10 @@ class Admin(User):
 # ad.view_employee()
 
 class Restaurant():
-    def __int__(self,name):
+    def __init__(self,name):
         self.name = name
         self.employee_list = []   # as Database
+        self.menu = FoodItem()
 
     def add_employee(self,employee):
             self.employee_list.append(employee)    # stored in database
@@ -47,7 +53,7 @@ class Restaurant():
                 print(emp.name, emp.phone, emp.email, emp.address)
 
 class Food_Menu:
-    def __int__(self):
+    def __init__(self):
         self.item_list = []  # item database
 
     def add_food(self,item):
@@ -66,3 +72,20 @@ class Food_Menu:
             print('Item deleted')
         else:
             print('Item not found')
+
+    def show_menu(self):
+        print('---- Menu ----')
+        print('Name\tPrice\tQuantity')
+        for item in self.item_list:
+            print(f'{item.name}\t{item.price}\t{item.quantity}')
+            
+class FoodItem:
+    def __init__(self,name,price,quantity):
+        self.name = name
+        self.price = price
+        self.quantity = quantity
+
+mn = Food_Menu()
+item = FoodItem('Pizza',299,20)
+mn.add_food(item)
+mn.show_menu()
