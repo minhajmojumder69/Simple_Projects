@@ -9,15 +9,17 @@ class User(ABC):
 class Customer(User):
     def __init__(self, name, phone, email, address):
         super().__init__(name, phone, email, address)
-        self.cart = None
+        self.cart = Order()
 
     def view_menu(self,restaurant):
         restaurant.menu.show_menu()
 
-    def add_to_cart(self,restautant,item_name):
+    def add_to_cart(self,restautant,item_name,quantity):
         item = restautant.menu.find_item(item_name)
         if item:
-            pass
+            item.quantity = quantity
+            self.cart.add_item(item)
+            print('Item added')
         else:
             print('Item not found')
 
@@ -83,7 +85,7 @@ class Restaurant():
     def __init__(self,name):
         self.name = name
         self.employee_list = []   # as Database
-        self.menu = FoodItem()
+        self.menu = Food_Menu()
 
     def add_employee(self,employee):
             self.employee_list.append(employee)    # stored in database
@@ -126,7 +128,23 @@ class FoodItem:
         self.price = price
         self.quantity = quantity
 
-mn = Food_Menu()
+
+dadur_dokan = Restaurant('Dadur Dokan')
+ad = Admin('Minhaj',12345676,'edu@gmail.com','Dhaka')
+
 item = FoodItem('Pizza',299,20)
-mn.add_food(item)
-mn.show_menu()
+item2 = FoodItem('Burger',269,9)
+ad.add_new_item(dadur_dokan,item)
+ad.add_new_item(dadur_dokan,item2)
+
+# mn = Food_Menu()
+# item = FoodItem('Pizza',299,20)
+# item2 = FoodItem('Burger',269,9)
+# mn.add_food(item)
+# mn.add_food(item2)
+#mn.show_menu()
+
+costomer1 = Customer('Mahin',93848,'mahi@gmail.com','Dhaka')
+costomer1.view_menu(dadur_dokan)
+costomer1.add_to_cart(dadur_dokan,'pizza',2)
+costomer1.view_cart()
