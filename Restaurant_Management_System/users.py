@@ -17,9 +17,12 @@ class Customer(User):
     def add_to_cart(self,restautant,item_name,quantity):
         item = restautant.menu.find_item(item_name)
         if item:
-            item.quantity = quantity
-            self.cart.add_item(item)
-            print('Item added')
+            if quantity > item.quantity:
+                print('Item quantity exceeded..!!')
+            else:
+                item.quantity = quantity
+                self.cart.add_item(item)
+                print('Item added')
         else:
             print('Item not found')
 
@@ -27,8 +30,8 @@ class Customer(User):
         print('--- View Cart ---')
         print('Name\tPrice\tQuantity')
         for item,quantity in self.cart.items.items():
-            print(f"{item.name} {item.price} {quantity}")
-        print("Total Price : {self.cart.total_price}")
+            print(f"{item.name}\t{item.price}\t{quantity}")
+        print(f"Total Price : {self.cart.total_price}")
 
 class Order:
     def __init__(self):
@@ -43,7 +46,7 @@ class Order:
     def remove(self,item):
         if item in self.items:
             del self.items[item]
-
+    @property
     def total_price(self):
         return sum(item.price * quantity for item,quantity in self.items.items())
     def clear(self):
@@ -146,5 +149,8 @@ ad.add_new_item(dadur_dokan,item2)
 
 costomer1 = Customer('Mahin',93848,'mahi@gmail.com','Dhaka')
 costomer1.view_menu(dadur_dokan)
-costomer1.add_to_cart(dadur_dokan,'pizza',2)
+item_name = input('Enter item name: ')
+item_quantity = int(input('Enter item quantity: '))
+
+costomer1.add_to_cart(dadur_dokan,item_name,item_quantity)
 costomer1.view_cart()
