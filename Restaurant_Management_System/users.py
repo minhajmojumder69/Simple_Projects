@@ -21,6 +21,9 @@ class Admin(User):
     def add_new_item(self,restaurant,item):
         restaurant.menu.add_food(item)
 
+    def view_items(self,restaurant):
+        restaurant.menu.show_menu()
+
     def delete_item(self,restaurant,item):
         restaurant.menu.remove_item(item)
 
@@ -53,7 +56,7 @@ class Customer(User):
     def pay_bill(self):
         tk = self.cart.total_price
         print(f'Total {tk}.')
-        bill = input('Pay now : ')
+        bill = int(input('Pay now : '))
         if bill < tk:
             more = tk - bill
             print(f"You have to pay more {more} tk.")
@@ -72,42 +75,3 @@ class Employee(User):
         self.disegnation = disegnation
         self.salary = salary
         super().__init__(name, phone, email, address)
-
-# emp = Employee('Sadia Afrin',123456,'sdi@gmail.com','Gulsan',22,'Chef',20000)
-# print(emp.name)
-
-
-
-# ad = Admin('Minhaj',12345676,'edu@gmail.com','Dhaka')
-# ad.add_employee('Rakin',984829,'rakin@gmail.com','Sonir akhra',22,'Chef',22000)
-# ad.add_employee('Sakira',9823829,'sakira@gmail.com','Sonir akhra',21,'Dancer',25000)
-# ad.view_employee()
-
-
-
-            
-
-
-
-dadur_dokan = Restaurant('Dadur Dokan')
-ad = Admin('Minhaj',12345676,'edu@gmail.com','Dhaka')
-
-item = FoodItem('Pizza',299,20)
-item2 = FoodItem('Burger',269,9)
-ad.add_new_item(dadur_dokan,item)
-ad.add_new_item(dadur_dokan,item2)
-
-# mn = Food_Menu()
-# item = FoodItem('Pizza',299,20)
-# item2 = FoodItem('Burger',269,9)
-# mn.add_food(item)
-# mn.add_food(item2)
-#mn.show_menu()
-
-costomer1 = Customer('Mahin',93848,'mahi@gmail.com','Dhaka')
-costomer1.view_menu(dadur_dokan)
-item_name = input('Enter item name: ')
-item_quantity = int(input('Enter item quantity: '))
-
-costomer1.add_to_cart(dadur_dokan,item_name,item_quantity)
-costomer1.view_cart()
