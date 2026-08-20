@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from ride import RideRequest,RideMatching
 class User(ABC):
     def __init__(self,name,email,nid):
         self.name = name
@@ -25,8 +26,14 @@ class Rider(User):
             print("Minimun recharge 10 tk")
     def update_location(self,currect_location):
         self.current_location = currect_location
-    def request_ride(self,ride_sharing,destination):
-        pass
+
+    def request_ride(self,ride_sharing,destination,vehicle_type):
+        ride_request = RideRequest(self,destination,)
+        ride_matching = RideMatching(ride_sharing.drivers)
+        ride = ride_matching.find_driver(ride_request,vehicle_type)
+        self.current_ride = ride
+        print('Yaa!! we got a ride..')
+
     def show_current_ride(self):
         print(self.current_ride)
 
@@ -38,4 +45,4 @@ class Driver(User):
     def display_profile(self):
         print(f'Driver Name : {self.name}')
     def accept_ride(self,ride):
-        pass
+        ride.set_driver(self)
